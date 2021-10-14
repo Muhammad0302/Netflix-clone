@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./login.scss";
 import { useRef } from "react";
+import { Link } from "react-router-dom";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -39,10 +40,21 @@ export default function Login() {
             onChange={(e) => setPassword(e.target.value)}
           />
           <button className="loginButton" onClick={handleLogin}>
-            Sign In
+            <Link
+              to="/home"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              Sign In
+            </Link>
           </button>
           <span>
-            New to Netflix? <b>Sign up now.</b>
+            New to Netflix?
+            <Link
+              to="/register"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <b>Sign up now.</b>
+            </Link>
           </span>
           <small>
             This page is protected by Google reCAPTCHA to ensure you're not a

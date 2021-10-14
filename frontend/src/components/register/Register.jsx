@@ -2,6 +2,7 @@ import React from "react";
 import { useRef } from "react";
 import { useState } from "react";
 import "./register.scss";
+import { Link } from "react-router-dom";
 function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -60,7 +61,12 @@ function Register() {
               ref={passwordRef}
             />
             <button className="registerButton" onClick={handleFinish}>
-              Start
+              <Link
+                to="/home"
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                Start
+              </Link>
             </button>
           </form>
         )}
