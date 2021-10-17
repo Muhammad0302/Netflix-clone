@@ -10,10 +10,13 @@ function App() {
     <Router className="App">
       <Switch>
         <Route exact path="/">
-          <Login />
-        </Route>
-        <Route exact path="/home">
           <Home />
+        </Route>
+        <Route exact path="/movies">
+          <Home type="movies" />
+        </Route>
+        <Route path="/series">
+          <Home type="series" />
         </Route>
         <Route path="/watch">
           <Watch />
