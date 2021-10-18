@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import "./navbar.scss";
 import { ArrowDropDown, Notifications, Search } from "@material-ui/icons";
+import { Link } from "react-router-dom";
 function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
-  console.log(window.pageYOffset);
+  // console.log(window.pageYOffset);
   return (
     <div className="navbar">
       <div className="container">
@@ -12,9 +13,15 @@ function Navbar() {
             src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/2560px-Netflix_2015_logo.svg.png"
             alt=""
           />
-          <span>Homepage</span>
-          <span>Series</span>
-          <span>Movies</span>
+          <Link className="link" to="/">
+            <span>Homepage</span>
+          </Link>
+          <Link className="link" to="/series">
+            <span>Series</span>
+          </Link>
+          <Link className="link" to="/movies">
+            <span>Movies</span>
+          </Link>
           <span>New and popular</span>
           <span>My List</span>
         </div>

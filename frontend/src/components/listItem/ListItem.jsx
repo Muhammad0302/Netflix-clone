@@ -8,9 +8,30 @@ import {
   ThumbDownOutlined,
 } from "@material-ui/icons";
 import { useEffect, useState } from "react";
-function ListItem({ index }) {
+import axios from "axios";
+function ListItem({ index, item }) {
+  const url = "http://localhost:8800/api/";
   const [isHovered, setIsHovered] = useState(false);
-  const trailer = "https://www.youtube.com/embed/2BkVf2voCr0?autoplay=1";
+  const [movie, setMovie] = useState({});
+  // const trailer = "https://www.youtube.com/embed/2BkVf2voCr0?autoplay=1";
+  useEffect(() => {
+    const getMovie = async () => {
+      try {
+        const res = await axios.get(url + "movies/find/" + item, {
+          headers: {
+            token:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNmJjMDlkOWI2MDc5M2JiMWVjZTE2NiIsImlzQWRtaW4iOnRydWUsImlhdCI6MTYzNDQ3OTMyOCwiZXhwIjoxNjM0OTExMzI4fQ.iU9TIkPafPg8A11JzvF15wlgarwXgLfIos2J5SS918M",
+          },
+        });
+        setMovie(res.data);
+        // console.log(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getMovie();
+  }, [item]);
+
   return (
     <div
       className="listItem"
@@ -18,39 +39,39 @@ function ListItem({ index }) {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <img
-        src="https://images.pexels.com/photos/6899260/pexels-photo-6899260.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-        alt=""
-      />
-      {isHovered && (
+      <Link
+        to={{ pathname: "/watch", movie: movie }}
+        style={{ textDecoration: "none", color: "inherit" }}
+      >
         <>
-          <Link
-            to="/watch"
-            style={{ textDecoration: "none", color: "inherit" }}
-          >
-            <embed className="video" src={trailer} autoPlay={true} loop />
-            <div className="itemInfo">
-              <div className="icons">
-                <PlayArrow className="icon" />
-                <Add className="icon" />
-                <ThumbUpAltOutlined className="icon" />
-                <ThumbDownOutlined className="icon" />
+          <img src={movie?.imgSm} alt="" />
+          {isHovered && (
+            <>
+              <embed
+                className="video"
+                src={movie?.video}
+                autoPlay={true}
+                loop
+              />
+              <div className="itemInfo">
+                <div className="icons">
+                  <PlayArrow className="icon" />
+                  <Add className="icon" />
+                  <ThumbUpAltOutlined className="icon" />
+                  <ThumbDownOutlined className="icon" />
+                </div>
+                <div className="itemInfoTop">
+                  <span>1 hour 14 mins</span>
+                  <span className="limit">+{movie.limit}</span>
+                  <span>{movie.year}</span>
+                </div>
+                <div className="desc">{movie.desc}</div>
+                <div className="genre">{movie.genre}</div>
               </div>
-              <div className="itemInfoTop">
-                <span>1 hour 14 mins</span>
-                <span className="limit">+16</span>
-                <span>1999</span>
-              </div>
-              <div className="desc">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non
-                voluptates iusto cum voluptas modi corrupti. Accusantium
-                similique odit laudantium,
-              </div>
-              <div className="genre">Action</div>
-            </div>
-          </Link>
+            </>
+          )}
         </>
-      )}
+      </Link>
     </div>
   );
 }

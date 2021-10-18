@@ -1,17 +1,40 @@
 import React from "react";
 import { InfoOutlined, PlayArrow } from "@material-ui/icons";
 import "./featured.scss";
-function Featured({ type }) {
+import axios from "axios";
+import { useEffect, useState } from "react";
+function Featured({ type, setGenre }) {
+  const [content, setContent] = useState({});
+  const url = "http://localhost:8800/api/";
+  useEffect(() => {
+    const getRandomContent = async () => {
+      try {
+        const res = await axios.get(`${url}movies/random?type=${type}`, {
+          headers: {
+            token:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNmJjMDlkOWI2MDc5M2JiMWVjZTE2NiIsImlzQWRtaW4iOnRydWUsImlhdCI6MTYzNDQ3OTMyOCwiZXhwIjoxNjM0OTExMzI4fQ.iU9TIkPafPg8A11JzvF15wlgarwXgLfIos2J5SS918M",
+          },
+        });
+        setContent(res.data[0]);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getRandomContent();
+  }, [type]);
+
+  console.log(content);
   return (
     <div className="featured">
-      <img
-        src="https://images.pexels.com/photos/6899260/pexels-photo-6899260.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-        alt=""
-      />
+      <img src={content.img} alt="" />
       {type && (
         <div className="category">
           <span>{type === "movies" ? "Movies" : "Series"}</span>
-          <select name="genre" id="genre">
+          <select
+            name="genre"
+            id="genre"
+            onChange={(e) => setGenre(e.target.value)}
+          >
             <option>Genre</option>
             <option value="adventure">Adventure</option>
             <option value="comedy">Comedy</option>
@@ -30,14 +53,8 @@ function Featured({ type }) {
         </div>
       )}
       <div className="info">
-        <img
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/2560px-Netflix_2015_logo.svg.png"
-          alt=""
-        />
-        <span className="desc">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil qui
-          molestiae ipsum cupiditate quis. Id, minus? Rem, iusto molestias,
-        </span>
+        <img src={content.imgTitle} alt="" />
+        <span className="desc">{content.desc}</span>
         <div className="buttons">
           <button className="play">
             <PlayArrow />
