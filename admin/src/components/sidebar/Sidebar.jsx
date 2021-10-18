@@ -5,9 +5,9 @@ import {
   Timeline,
   TrendingUp,
   PermIdentity,
-  Storefront,
   AttachMoney,
   BarChart,
+  PlayCircleOutline,
   MailOutline,
   DynamicFeed,
   ChatBubbleOutline,
@@ -49,9 +49,9 @@ function Sidebar() {
               </Link>
             </li>
             <li className="sidebarListItem">
-              <Link to="/products" className="Link">
-                <Storefront className="sidebarIcon activButton" />
-                Products
+              <Link to="/movies" className="Link">
+                <PlayCircleOutline className="sidebarIcon activButton" />
+                Movies
               </Link>
             </li>
             <li className="sidebarListItem">
