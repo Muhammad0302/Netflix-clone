@@ -4,11 +4,14 @@ import "./index.css";
 import App from "./App";
 import { AuthContextProvider } from "./authContext/AuthContext";
 import { MovieContextProvider } from "./movieContext/MovieContext";
+import { ListContextProvider } from "./listContext/ListContext";
 ReactDOM.render(
   <React.StrictMode>
     <AuthContextProvider>
       <MovieContextProvider>
-        <App />
+        <ListContextProvider>
+          <App />
+        </ListContextProvider>
       </MovieContextProvider>
     </AuthContextProvider>
   </React.StrictMode>,

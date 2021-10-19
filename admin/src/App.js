@@ -28,7 +28,7 @@ function App() {
               <Route exact path="/">
                 <Home />
               </Route>
-              <Route path="/users">
+              <Route path="/lists">
                 <UserList />
               </Route>
               <Route path="/user/:userId">
@@ -43,7 +43,7 @@ function App() {
               <Route path="/movie/:movieId">
                 <Product />
               </Route>
-              <Route path="/newproduct">
+              <Route path="/newmovie">
                 <NewProduct />
               </Route>
             </Switch>

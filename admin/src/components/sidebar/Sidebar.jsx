@@ -43,9 +43,9 @@ function Sidebar() {
           <h3 className="sidebarTitle">Quick Menu</h3>
           <ul className="sidebarList">
             <li className="sidebarListItem">
-              <Link to="/users" className="Link">
+              <Link to="/lists" className="Link">
                 <PermIdentity className="sidebarIcon activButton" />
-                Users
+                Lists
               </Link>
             </li>
             <li className="sidebarListItem">
