@@ -1,18 +1,23 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { login } from "../../context/authContext/apiCalls";
+import { AuthContext } from "../../context/authContext/AuthContext";
 import "./login.scss";
-import { useRef } from "react";
 import { Link } from "react-router-dom";
+
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const emailRef = useRef();
-  const passwordRef = useRef();
+  const { dispatch } = useContext(AuthContext);
+  const [errormessage, setErrormessage] = useState("");
 
   const handleLogin = (e) => {
     e.preventDefault();
-    setEmail(emailRef.current.value);
-    setPassword(passwordRef.current.value);
+    login({ email, password }, dispatch, setErrormessage);
+    if (errormessage) {
+      alert(errormessage);
+    }
   };
+  // console.log(errormessage);
   return (
     <div className="login">
       <div className="top">
@@ -29,30 +34,24 @@ export default function Login() {
           <h1>Sign In</h1>
           <input
             type="email"
-            ref={emailRef}
             placeholder="Email or phone number"
             onChange={(e) => setEmail(e.target.value)}
           />
           <input
             type="password"
-            ref={passwordRef}
             placeholder="Password"
             onChange={(e) => setPassword(e.target.value)}
           />
           <button className="loginButton" onClick={handleLogin}>
-            <Link
-              to="/home"
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
-              Sign In
-            </Link>
+            Sign In
           </button>
           <span>
-            New to Netflix?
+            New to Netflix?{" "}
             <Link
               to="/register"
-              style={{ textDecoration: "none", color: "inherit" }}
+              style={{ color: "inherit", textDecoration: "none" }}
             >
+              {" "}
               <b>Sign up now.</b>
             </Link>
           </span>

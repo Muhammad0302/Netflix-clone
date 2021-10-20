@@ -10,14 +10,24 @@ import {
   Link,
   Redirect,
 } from "react-router-dom";
-
+import { useContext } from "react";
+import { AuthContext } from "./context/authContext/AuthContext";
 function App() {
-  const user = true;
+  const { user } = useContext(AuthContext);
   return (
-    <Router className="App">
+    <Router>
       <Switch>
         <Route exact path="/">
+          {/* <Home /> */}
           {user ? <Home /> : <Redirect to="/register" />}
+        </Route>
+        <Route path="/register">
+          {/* <Register /> */}
+          {!user ? <Register /> : <Redirect to="/" />}
+        </Route>
+        <Route path="/login">
+          {/* <Login /> */}
+          {!user ? <Login /> : <Redirect to="/" />}
         </Route>
         {user && (
           <>
@@ -32,10 +42,6 @@ function App() {
             </Route>
           </>
         )}
-        <Route path="/register">
-          {!user ? <Register /> : <Redirect to="/" />}
-        </Route>
-        <Route path="/login">{!user ? <Login /> : <Redirect to="/" />}</Route>
       </Switch>
     </Router>
   );

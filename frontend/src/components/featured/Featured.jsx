@@ -1,18 +1,18 @@
-import React from "react";
 import { InfoOutlined, PlayArrow } from "@material-ui/icons";
-import "./featured.scss";
 import axios from "axios";
 import { useEffect, useState } from "react";
-function Featured({ type, setGenre }) {
+import "./featured.scss";
+
+export default function Featured({ type, setGenre }) {
   const [content, setContent] = useState({});
   const url = "http://localhost:8800/api/";
   useEffect(() => {
     const getRandomContent = async () => {
       try {
-        const res = await axios.get(`${url}movies/random?type=${type}`, {
+        const res = await axios.get(url + `movies/random?type=${type}`, {
           headers: {
             token:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNmJjMDlkOWI2MDc5M2JiMWVjZTE2NiIsImlzQWRtaW4iOnRydWUsImlhdCI6MTYzNDQ3OTMyOCwiZXhwIjoxNjM0OTExMzI4fQ.iU9TIkPafPg8A11JzvF15wlgarwXgLfIos2J5SS918M",
+              "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
           },
         });
         setContent(res.data[0]);
@@ -26,7 +26,6 @@ function Featured({ type, setGenre }) {
   console.log(content);
   return (
     <div className="featured">
-      <img src={content.img} alt="" />
       {type && (
         <div className="category">
           <span>{type === "movies" ? "Movies" : "Series"}</span>
@@ -52,6 +51,7 @@ function Featured({ type, setGenre }) {
           </select>
         </div>
       )}
+      <img src={content.img} alt="" />
       <div className="info">
         <img src={content.imgTitle} alt="" />
         <span className="desc">{content.desc}</span>
@@ -69,5 +69,3 @@ function Featured({ type, setGenre }) {
     </div>
   );
 }
-
-export default Featured;

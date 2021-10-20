@@ -1,56 +1,93 @@
-import React from "react";
+import { useContext, useEffect, useState } from "react";
 import "./newUser.css";
+import storage from "../../pages/firebase";
+import { createMovie, getMovies } from "../../movieContext/apiCalls";
+import { MovieContext } from "../../movieContext/MovieContext";
+import { ListContext } from "../../listContext/ListContext";
+import { createList } from "../../listContext/apiCalls";
+import { useHistory } from "react-router-dom";
+
 function NewUser() {
+  const [list, setList] = useState(null);
+  const history = useHistory();
+
+  const { dispatch } = useContext(ListContext);
+  const { movies, dispatch: dispatchMovie } = useContext(MovieContext);
+
+  useEffect(() => {
+    getMovies(dispatchMovie);
+  }, [dispatchMovie]);
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setList({ ...list, [e.target.name]: value });
+  };
+
+  const handleSelect = (e) => {
+    let value = Array.from(e.target.selectedOptions, (option) => option.value);
+    setList({ ...list, [e.target.name]: value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    createList(list, dispatch);
+    history.push("/lists");
+  };
+
   return (
-    <div className="newuser">
-      <h1 className="newUserTitle">New User</h1>
-      <form className="newUserForm">
-        <div className="newUserItem">
-          <label>Username</label>
-          <input type="text" placeholder="john" />
-        </div>
-        <div className="newUserItem">
-          <label>Full Name</label>
-          <input type="text" placeholder="John Smith" />
-        </div>
-        <div className="newUserItem">
-          <label>Email</label>
-          <input type="email" placeholder="john@gmail.com" />
-        </div>
-        <div className="newUserItem">
-          <label>Password</label>
-          <input type="password" placeholder="password" />
-        </div>
-        <div className="newUserItem">
-          <label>Phone</label>
-          <input type="text" placeholder="+1 123 456 78" />
-        </div>
-        <div className="newUserItem">
-          <label>Address</label>
-          <input type="text" placeholder="New York | USA" />
-        </div>
-        <div className="newUserItem">
-          <label>Gender</label>
-          <div className="newUserGender">
-            <input type="radio" name="gender" id="male" value="male" />
-            <label for="male">Male</label>
-            <input type="radio" name="gender" id="female" value="female" />
-            <label for="female">Female</label>
-            <input type="radio" name="gender" id="other" value="other" />
-            <label for="other">Other</label>
+    <div className="newProduct">
+      <h1 className="addProductTitle">New List</h1>
+      <form className="addProductForm">
+        <div className="formLeft">
+          <div className="addProductItem">
+            <label>Title</label>
+            <input
+              type="text"
+              placeholder="Popular Movies"
+              name="title"
+              onChange={handleChange}
+            />
+          </div>
+          <div className="addProductItem">
+            <label>Genre</label>
+            <input
+              type="text"
+              placeholder="action"
+              name="genre"
+              onChange={handleChange}
+            />
+          </div>
+          <div className="addProductItem">
+            <label>Type</label>
+            <select name="type" onChange={handleChange}>
+              <option>Type</option>
+              <option value="movie">Movie</option>
+              <option value="series">Series</option>
+            </select>
           </div>
         </div>
-        <div className="newUserItem">
-          <label>Active</label>
-          <select className="newUserSelect" name="active" id="active">
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
-          </select>
+        <div className="formRight">
+          <div className="addProductItem">
+            <label>Content</label>
+            <select
+              multiple
+              name="content"
+              onChange={handleSelect}
+              style={{ height: "280px" }}
+            >
+              {movies.map((movie) => (
+                <option key={movie._id} value={movie._id}>
+                  {movie.title}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
-        <button className="newUserButton">Create</button>
+        <button className="addProductButton" onClick={handleSubmit}>
+          Create
+        </button>
       </form>
     </div>
   );
 }
-
 export default NewUser;
