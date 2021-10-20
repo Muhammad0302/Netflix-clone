@@ -36,12 +36,12 @@ function Register() {
           />
 
           <button className="loginButton">
-            <Link
+            <a
               to="./login"
               style={{ textDecoration: "none", color: "inherit" }}
             >
               Sign In
-            </Link>
+            </a>
           </button>
         </div>
       </div>

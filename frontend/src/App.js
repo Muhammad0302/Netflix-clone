@@ -21,11 +21,11 @@ function App() {
           {/* <Home /> */}
           {user ? <Home /> : <Redirect to="/register" />}
         </Route>
-        <Route path="/register">
+        <Route exact path="/register">
           {/* <Register /> */}
           {!user ? <Register /> : <Redirect to="/" />}
         </Route>
-        <Route path="/login">
+        <Route exact path="/login">
           {/* <Login /> */}
           {!user ? <Login /> : <Redirect to="/" />}
         </Route>

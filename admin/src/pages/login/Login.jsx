@@ -29,12 +29,12 @@ export default function Login() {
           <h1>Sign In</h1>
           <input
             type="email"
-            placeholder="Email or phone number"
+            placeholder="Email or phone number (mi477048@gmail.com)"
             onChange={(e) => setEmail(e.target.value)}
           />
           <input
             type="password"
-            placeholder="Password"
+            placeholder="Password (samarbagh)"
             onChange={(e) => setPassword(e.target.value)}
           />
           <button
